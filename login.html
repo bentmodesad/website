@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelas X DKV3 - Tema Astronomi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+    <style>
+        /* Tambahan CSS untuk error handling */
+        .galeri-item img {
+            transition: opacity 0.3s ease;
+        }
+        
+        .galeri-item img.error {
+            opacity: 0.5;
+        }
+        
+        .image-error {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ff4757;
+            font-size: 0.9rem;
+            text-align: center;
+            background: rgba(255, 71, 87, 0.1);
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .galeri-item:hover .image-error {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Stars -->
+    <div class="stars" id="stars"></div>
+    
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>X DKV 3</h1>
+                    <p>Menjelajah Semesta Kreativitas</p>
+                </div>
+            </div>
+            
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="active"><i class="fas fa-home"></i> Beranda</a></li>
+                    <li><a href="anggota.html"><i class="fas fa-users"></i> Anggota</a></li>
+                    <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                </ul>
+            </nav>
+            
+            <div class="user-info">
+                <span id="displayUsername">Pengunjung</span>
+                <div class="auth-buttons">
+                    <a href="login.html" class="btn-login">Login</a>
+                    <a href="register.html" class="btn-register">Daftar</a>
+                </div>
+            </div>
+        </header>
+        
+        <main>
+            <!-- Alert untuk demo -->
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i>
+                Ini adalah versi statis. Login/registrasi hanya simulasi.
+            </div>
+            
+            <section class="hero">
+                <h2>Selamat Datang di Galaksi X DKV 3</h2>
+                <p>Kami adalah sekelompok penjelajah kreatif yang sedang mengeksplorasi semesta desain dan visual. Bersama-sama, kita akan mencapai bintang-bintang kreativitas!</p>
+                <div class="star-icons">
+                    <i class="fas fa-star" style="color: #FFD700;"></i>
+                    <i class="fas fa-star" style="color: #6A7AE0;"></i>
+                    <i class="fas fa-star" style="color: #FF5757;"></i>
+                </div>
+            </section>
+            
+            <section class="motivasi-section">
+                <div class="section-title">
+                    <i class="fas fa-quote-left"></i>
+                    <h3>Motivasi Antariksa</h3>
+                </div>
+                
+                <div class="motivasi-container">
+                    <div class="motivasi-card">
+                        <i class="fas fa-rocket"></i>
+                        <h4>Terbang Tinggi</h4>
+                        <p>Seperti roket yang meluncur ke angkasa, impian kita tidak mengenal batas. Teruslah meluncur menuju bintang-bintang cita-cita!</p>
+                    </div>
+                    
+                    <div class="motivasi-card">
+                        <i class="fas fa-moon"></i>
+                        <h4>Bulan dan Bintang</h4>
+                        <p>Ketika kegelapan datang, bulan dan bintang akan selalu menyinari jalanmu. Begitu pula dengan ilmu dan kreativitas.</p>
+                    </div>
+                    
+                    <div class="motivasi-card">
+                        <i class="fas fa-satellite"></i>
+                        <h4>Terus Berkomunikasi</h4>
+                        <p>Seperti satelit yang terus mengirim sinyal, jangan pernah berhenti berbagi ide dan berkolaborasi dengan teman-teman.</p>
+                    </div>
+                    
+                    <div class="motivasi-card">
+                        <i class="fas fa-user-astronaut"></i>
+                        <h4>Jadi Astronaut Kreatif</h4>
+                        <p>Setiap dari kita adalah astronaut di galaksi kreativitas. Jelajahi planet-planet ide baru tanpa takut kehilangan arah.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="galeri-section">
+                <div class="section-title">
+                    <i class="fas fa-images"></i>
+                    <h3>Galeri Kenangan</h3>
+                </div>
+                
+                <!-- Tambah pesan info -->
+                <div style="text-align: center; margin-bottom: 20px; color: var(--text-secondary);">
+                    <p><i class="fas fa-info-circle"></i> Galeri menampilkan foto dari Google Drive dan sumber lainnya</p>
+                </div>
+                
+                <div class="galeri-container" id="galeriContainer">
+                    <!-- Foto akan dimuat via JavaScript -->
+                </div>
+                
+                <!-- Loading indicator -->
+                <div id="loading" style="text-align: center; padding: 20px; display: none;">
+                    <i class="fas fa-spinner fa-spin"></i> Memuat foto...
+                </div>
+            </section>
+            
+            <section class="pengumuman-section">
+                <div class="section-title">
+                    <i class="fas fa-bullhorn"></i>
+                    <h3>Pengumuman Terbaru</h3>
+                </div>
+                
+                <div class="pengumuman-container">
+                    <div class="pengumuman-card">
+                        <div class="pengumuman-header">
+                            <span class="pengumuman-badge penting"><i class="fas fa-exclamation-circle"></i> Penting</span>
+                            <span class="pengumuman-date">25 Nov 2023</span>
+                        </div>
+                        <h4>MAINTENANCE</h4>
+                        <p>TUNGGU YA SEDANG DI DIPROGAM.</p>
+                    </div>
+                    
+                    <div class="pengumuman-card">
+                        <div class="pengumuman-header">
+                            <span class="pengumuman-badge acara"><i class="fas fa-calendar-alt"></i> Acara</span>
+                            <span class="pengumuman-date">20 Juni 2025</span>
+                        </div>
+                        <h4>Pembagian Kelas</h4>
+                        <p>PEMBAGIAN KELAS X DKV 3 BERJUMLAH 34 SISWA.</p>
+                    </div>
+                    
+                    <div class="pengumuman-card">
+                        <div class="pengumuman-header">
+                            <span class="pengumuman-badge tugas"><i class="fas fa-tasks"></i> Tugas</span>
+                            <span class="pengumuman-date">18 Nov 2026</span>
+                        </div>
+                        <h4>Pembagian Raport Semester</h4>
+                        <p>Pembagian raport semester ganjil akan dilaksanakan pada Sabtu, 23 Desember 2025 pukul 08.00 di aula sekolah.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <footer>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4><i class="fas fa-rocket"></i> X DKV 3</h4>
+                    <p>Menjelajah Semesta Kreativitas</p>
+                    <p>Angkatan 2025/2026</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Navigasi</h4>
+                    <ul>
+                        <li><a href="index.html"><i class="fas fa-home"></i> Beranda</a></li>
+                        <li><a href="anggota.html"><i class="fas fa-users"></i> Anggota</a></li>
+                        <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Kontak</h4>
+                    <p><i class="fas fa-school"></i> SMK N 1 CLUWAK</p>
+                    <p><i class="fas fa-map-marker-alt"></i> PATI, Indonesia</p>
+                    <p><i class="fas fa-envelope"></i> kelasxdvk3@email.com</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Kelas X DKV 3. Semua Hak Dilindungi.</p>
+                <p class="footer-note">
+                    <i class="fas fa-satellite-dish"></i> Terhubung dengan semesta kreativitas
+                </p>
+            </div>
+        </footer>
+    </div>
+    
+    <script src="script.js"></script>
+    <script>
+        // Cek status login dari localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const username = localStorage.getItem('dkv3_username');
+            const displayElement = document.getElementById('displayUsername');
+            
+            if (username) {
+                displayElement.textContent = username;
+                displayElement.innerHTML = `<strong>${username}</strong>`;
+                
+                // Update tombol login/logout
+                const authButtons = document.querySelector('.auth-buttons');
+                authButtons.innerHTML = `
+                    <span style="color: var(--accent-light); margin-right: 10px;">
+                        <i class="fas fa-user-astronaut"></i> ${username}
+                    </span>
+                    <a href="#" class="btn-logout" onclick="logout()">Logout</a>
+                `;
+            }
+            
+            // Load galeri foto dengan error handling
+            loadGaleriFoto();
+        });
+
+        // Fungsi untuk konversi Google Drive link ke direct link
+        function convertGoogleDriveLink(link) {
+            // Jika sudah format direct, return as is
+            if (link.includes('uc?id=') || link.includes('uc?export=')) {
+                return link;
+            }
+            
+            // Extract file ID dari berbagai format Google Drive link
+            let fileId = '';
+            
+            // Format: https://drive.google.com/file/d/FILE_ID/view
+            const match1 = link.match(/\/d\/([^\/]+)/);
+            if (match1) {
+                fileId = match1[1];
+            }
+            
+            // Format: https://drive.google.com/open?id=FILE_ID
+            const match2 = link.match(/[?&]id=([^&]+)/);
+            if (match2 && !fileId) {
+                fileId = match2[1];
+            }
+            
+            if (fileId) {
+                // Return direct link
+                return `https://drive.google.com/uc?export=view&id=${fileId}`;
+            }
+            
+            // Jika tidak bisa dikonversi, return original
+            return link;
+        }
+
+        async function loadGaleriFoto() {
+            const container = document.getElementById('galeriContainer');
+            const loading = document.getElementById('loading');
+            
+            container.innerHTML = '';
+            loading.style.display = 'block';
+            
+            // Array foto dengan Google Drive link yang sudah dikonversi
+            const fotoKenangan = [
+                {
+                    // LINK ASLI: https://drive.google.com/file/d/1GBikM_KHxDEgi_RlCnp3A29-jzrDNRpP/view?usp=drivesdk
+                    src: convertGoogleDriveLink("https://drive.google.com/file/d/1GBikM_KHxDEgi_RlCnp3A29-jzrDNRpP/view?usp=drivesdk"),
+                    caption: "Kegiatan seni di kelas",
+                    source: "Google Drive"
+                },
+                {
+                    src: "https://images.unsplash.com/photo-1532601224476-15c79f2f7a51?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                    caption: "Presentasi proyek desain"
+                },
+                {
+                    src: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                    caption: "Diskusi kelompok tentang astronomi"
+                },
+                {
+                    src: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                    caption: "Eksperimen dengan cahaya dan warna"
+                },
+                {
+                    src: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                    caption: "Pameran karya seni kelas"
+                },
+                {
+                    src: "https://images.unsplash.com/photo-1516979187457-637abb4f9353?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                    caption: "Belajar tentang tata surya"
+                }
+            ];
+
+            container.innerHTML = '';
+
+            // Load setiap gambar dengan timeout untuk menghindari blocking
+            fotoKenangan.forEach((foto, index) => {
+                const item = document.createElement('div');
+                item.className = 'galeri-item';
+                item.style.animationDelay = `${index * 0.1}s`;
+                
+                item.innerHTML = `
+                    <img 
+                        src="${foto.src}" 
+                        alt="${foto.caption}" 
+                        loading="lazy"
+                        onload="this.classList.remove('error')"
+                        onerror="this.classList.add('error'); showImageError(this, '${foto.caption}')"
+                    >
+                    <div class="galeri-overlay">
+                        <p>${foto.caption}</p>
+                        ${foto.source ? `<small><i class="fas fa-${foto.source === 'Google Drive' ? 'google-drive' : 'image'}"></i> ${foto.source}</small>` : ''}
+                    </div>
+                    <div class="image-error">
+                        <i class="fas fa-exclamation-triangle"></i><br>
+                        Gagal memuat gambar
+                    </div>
+                `;
+                
+                container.appendChild(item);
+                
+                // Preload image untuk cek apakah bisa di-load
+                setTimeout(() => {
+                    preloadImage(foto.src, item);
+                }, index * 500);
+            });
+            
+            loading.style.display = 'none';
+            
+            // Tambah efek fade in
+            setTimeout(() => {
+                document.querySelectorAll('.galeri-item').forEach(item => {
+                    item.classList.add('fade-in');
+                });
+            }, 100);
+        }
+
+        // Fungsi untuk preload image dan cek error
+        function preloadImage(src, container) {
+            const img = new Image();
+            img.src = src;
+            
+            img.onload = function() {
+                console.log(`✅ Gambar berhasil di-load: ${src}`);
+                container.classList.add('loaded');
+            };
+            
+            img.onerror = function() {
+                console.log(`❌ Gagal load gambar: ${src}`);
+                container.classList.add('error');
+                
+                // Coba konversi ke format lain jika Google Drive
+                if (src.includes('drive.google.com')) {
+                    console.log('Mencoba format alternatif...');
+                    
+                    // Coba format lain
+                    const fileIdMatch = src.match(/id=([^&]+)/);
+                    if (fileIdMatch) {
+                        const fileId = fileIdMatch[1];
+                        const alternativeSrc = `https://lh3.googleusercontent.com/d/${fileId}`;
+                        
+                        const img2 = new Image();
+                        img2.src = alternativeSrc;
+                        
+                        img2.onload = function() {
+                            console.log(`✅ Alternatif berhasil: ${alternativeSrc}`);
+                            const imgElement = container.querySelector('img');
+                            imgElement.src = alternativeSrc;
+                            container.classList.remove('error');
+                            container.classList.add('loaded');
+                        };
+                    }
+                }
+            };
+            
+            // Timeout setelah 10 detik
+            setTimeout(() => {
+                if (!img.complete) {
+                    console.log(`⏰ Timeout untuk: ${src}`);
+                    container.classList.add('timeout');
+                }
+            }, 10000);
+        }
+
+        function showImageError(imgElement, caption) {
+            console.log(`❌ Error loading image: ${caption}`);
+            console.log(`Source: ${imgElement.src}`);
+            
+            // Tampilkan alert untuk Google Drive links
+            if (imgElement.src.includes('drive.google.com')) {
+                console.log('Tips: Pastikan file di Google Drive sudah di-share dengan permission "Anyone with the link can view"');
+                
+                // Coba alternatif link
+                const fileIdMatch = imgElement.src.match(/id=([^&]+)/);
+                if (fileIdMatch) {
+                    const fileId = fileIdMatch[1];
+                    const altLink = `https://lh3.googleusercontent.com/d/${fileId}`;
+                    console.log(`Coba link alternatif: ${altLink}`);
+                    
+                    // Set timeout untuk coba link alternatif
+                    setTimeout(() => {
+                        imgElement.src = altLink;
+                    }, 2000);
+                }
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('dkv3_username');
+            localStorage.removeItem('dkv3_loggedIn');
+            alert('Anda telah logout!');
+            window.location.href = 'index.html';
+        }
+        
+        // Fungsi untuk test Google Drive link
+        function testGoogleDriveLink() {
+            const testUrl = "https://drive.google.com/uc?export=view&id=1GBikM_KHxDEgi_RlCnp3A29-jzrDNRpP";
+            
+            fetch(testUrl, { mode: 'no-cors' })
+                .then(() => console.log('✅ Link bisa diakses (no-cors)'))
+                .catch(err => console.log('❌ Error:', err));
+                
+            // Test dengan image element
+            const testImg = new Image();
+            testImg.src = testUrl;
+            testImg.onload = () => console.log('✅ Gambar berhasil di-load');
+            testImg.onerror = () => console.log('❌ Gagal load gambar');
+        }
+        
+        // Test saat halaman dimuat
+        setTimeout(testGoogleDriveLink, 3000);
+    </script>
+    
+    <style>
+        /* Animasi fade in untuk galeri */
+        .galeri-item {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        .galeri-item.fade-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Style untuk loaded/error state */
+        .galeri-item.loaded img {
+            border: 2px solid #2ed573;
+        }
+        
+                .galeri-item.error img {
+                    border: 2px solid #ff4757;
+                    filter: grayscale(100%);
+                }
+                
+                .galeri-item.timeout img {
+                    border: 2px solid #ffa502;
+                    opacity: 0.6;
+                }
+            </style>
+        </body>
+        </html>
