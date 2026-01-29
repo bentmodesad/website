@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrasi - X DKV3</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📝</text></svg>">
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    
+    <div class="auth-container">
+        <div class="auth-box">
+            <div class="auth-header">
+                <div class="auth-icon">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <h2>Daftar ke Galaksi</h2>
+                <p>Bergabung dengan kru astronaut kreatif X DKV3</p>
+            </div>
+            
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i>
+                Registrasi ini hanya simulasi. Data akan disimpan di localStorage browser.
+            </div>
+            
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="fullname"><i class="fas fa-id-card"></i> Nama Lengkap</label>
+                    <input type="text" id="fullname" name="fullname" placeholder="Masukkan nama lengkap" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" id="email" name="email" placeholder="nama@email.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="nim"><i class="fas fa-id-badge"></i> NIM</label>
+                    <input type="text" id="nim" name="nim" placeholder="Contoh: DKV001" required>
+                    <small class="form-help">Format: DKV + 3 digit angka</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="username"><i class="fas fa-user"></i> Username</label>
+                    <input type="text" id="username" name="username" placeholder="Pilih username" required>
+                    <small class="form-help">Minimal 3 karakter, tanpa spasi</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password"><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" id="password" name="password" placeholder="Minimal 6 karakter" required>
+                    <div class="password-strength">
+                        <div class="strength-bar"></div>
+                        <span class="strength-text">Kekuatan password</span>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirm_password"><i class="fas fa-lock"></i> Konfirmasi Password</label>
+                    <input type="password" id="confirm_password" name="confirm_password" placeholder="Ulangi password" required>
+                    <div class="password-match">
+                        <i class="fas fa-check" id="passwordMatchIcon"></i>
+                        <span id="passwordMatchText">Password cocok</span>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="role"><i class="fas fa-user-tag"></i> Peran</label>
+                    <select id="role" name="role" required>
+                        <option value="">Pilih peran...</option>
+                        <option value="siswa">Siswa</option>
+                        <option value="alumni">Alumni</option>
+                        <option value="guru">Guru</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="agreeTerms" required>
+                        <span>Saya setuju dengan <a href="#" class="terms-link">Syarat & Ketentuan</a></span>
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn-auth">
+                    <i class="fas fa-rocket"></i> Daftar & Bergabung
+                </button>
+            </form>
+            
+            <div class="auth-link">
+                <p>Sudah punya akun? <a href="login.html">Login di sini</a></p>
+            </div>
+            
+            <div class="back-home">
+                <a href="index.html"><i class="fas fa-arrow-left"></i> Kembali ke Beranda</a>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check jika sudah login
+            if (localStorage.getItem('dkv3_loggedIn')) {
+                alert('Anda sudah login!');
+                window.location.href = 'index.html';
+            }
+            
+            // Password strength checker
+            const passwordInput = document.getElementById('password');
+            const strengthBar = document.querySelector('.strength-bar');
+            const strengthText = document.querySelector('.strength-text');
+            
+            passwordInput.addEventListener('input', function() {
+                const password = this.value;
+                let strength = 0;
+                
+                if (password.length >= 6) strength++;
+                if (password.length >= 8) strength++;
+                if (/[A-Z]/.test(password)) strength++;
+                if (/[0-9]/.test(password)) strength++;
+                if (/[^A-Za-z0-9]/.test(password)) strength++;
+                
+                // Update strength bar
+                strengthBar.style.width = (strength * 20) + '%';
+                
+                // Update colors and text
+                if (strength <= 1) {
+                    strengthBar.style.backgroundColor = '#ff4757';
+                    strengthText.textContent = 'Sangat Lemah';
+                } else if (strength <= 2) {
+                    strengthBar.style.backgroundColor = '#ffa502';
+                    strengthText.textContent = 'Lemah';
+                } else if (strength <= 3) {
+                    strengthBar.style.backgroundColor = '#2ed573';
+                    strengthText.textContent = 'Cukup';
+                } else if (strength <= 4) {
+                    strengthBar.style.backgroundColor = '#1e90ff';
+                    strengthText.textContent = 'Kuat';
+                } else {
+                    strengthBar.style.backgroundColor = '#3742fa';
+                    strengthText.textContent = 'Sangat Kuat';
+                }
+            });
+            
+            // Password match checker
+            const confirmPasswordInput = document.getElementById('confirm_password');
+            const matchIcon = document.getElementById('passwordMatchIcon');
+            const matchText = document.getElementById('passwordMatchText');
+            
+            function checkPasswordMatch() {
+                const password = passwordInput.value;
+                const confirmPassword = confirmPasswordInput.value;
+                
+                if (confirmPassword === '') {
+                    matchIcon.style.color = '#ccc';
+                    matchText.textContent = 'Konfirmasi password';
+                    return;
+                }
+                
+                if (password === confirmPassword) {
+                    matchIcon.style.color = '#2ed573';
+                    matchIcon.className = 'fas fa-check';
+                    matchText.textContent = 'Password cocok';
+                } else {
+                    matchIcon.style.color = '#ff4757';
+                    matchIcon.className = 'fas fa-times';
+                    matchText.textContent = 'Password tidak cocok';
+                }
+            }
+            
+            passwordInput.addEventListener('input', checkPasswordMatch);
+            confirmPasswordInput.addEventListener('input', checkPasswordMatch);
+            
+            // NIM validation
+            const nimInput = document.getElementById('nim');
+            nimInput.addEventListener('input', function() {
+                const nim = this.value.toUpperCase();
+                this.value = nim;
+                
+                if (nim && !/^DKV\d{3}$/.test(nim)) {
+                    this.style.borderColor = '#ff4757';
+                } else {
+                    this.style.borderColor = '';
+                }
+            });
+            
+            // Form submission
+            document.getElementById('registerForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form values
+                const fullname = document.getElementById('fullname').value;
+                const email = document.getElementById('email').value;
+                const nim = document.getElementById('nim').value;
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirm_password').value;
+                const role = document.getElementById('role').value;
+                
+                // Validation
+                if (password !== confirmPassword) {
+                    alert('Password dan konfirmasi password tidak cocok!');
+                    return;
+                }
+                
+                if (!/^DKV\d{3}$/.test(nim)) {
+                    alert('Format NIM tidak valid! Gunakan format: DKV001');
+                    return;
+                }
+                
+                if (password.length < 6) {
+                    alert('Password minimal 6 karakter!');
+                    return;
+                }
+                
+                if (!document.getElementById('agreeTerms').checked) {
+                    alert('Anda harus menyetujui Syarat & Ketentuan!');
+                    return;
+                }
+                
+                // Simpan data di localStorage (simulasi)
+                const userData = {
+                    fullname: fullname,
+                    email: email,
+                    nim: nim,
+                    username: username,
+                    role: role,
+                    registeredAt: new Date().toISOString()
+                };
+                
+                // Simpan data user
+                localStorage.setItem('dkv3_userData', JSON.stringify(userData));
+                localStorage.setItem('dkv3_username', fullname);
+                localStorage.setItem('dkv3_loggedIn', 'true');
+                
+                // Tampilkan pesan sukses
+                alert(`Registrasi berhasil!\n\nSelamat bergabung, ${fullname}!\nAnda sekarang adalah bagian dari kru X DKV3.`);
+                
+                // Redirect ke halaman utama
+                window.location.href = 'index.html';
+            });
+            
+            // Terms link
+            document.querySelector('.terms-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Syarat & Ketentuan:\n\n1. Data akan disimpan di localStorage browser\n2. Website ini hanya untuk tujuan demo\n3. Tidak ada data yang dikirim ke server\n4. Fitur login/registrasi hanya simulasi');
+            });
+        });
+    </script>
+</body>
+</html>
